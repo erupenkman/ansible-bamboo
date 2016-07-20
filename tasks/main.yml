@@ -61,7 +61,7 @@
 - name: Create Bamboo home directory
   become: yes
   file:
-    path: "{{ bamboo_home_dir }}"
+    path: "{{ bamboo_home_dir }}/atlassian-bamboo-{{ bamboo_version }}"
     owner: bamboo
     group: bamboo
     mode: 0755
