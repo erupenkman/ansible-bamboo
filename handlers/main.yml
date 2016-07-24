@@ -9,3 +9,7 @@
     pattern: bamboo
   tags:
     - bamboo
+
+- name: enable bamboo service
+  become: yes
+  shell: systemctl enable bamboo

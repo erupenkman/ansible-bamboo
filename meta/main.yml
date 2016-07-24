@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: Kevin Brebanov
-  description: Installs Bamboo
+  author: Eru Penkman (forked from Kevin Brebanov)
+  description: Installs Bamboo as Systemd service
   company:
 
   # If the issue tracker for your role is not on github, uncomment the

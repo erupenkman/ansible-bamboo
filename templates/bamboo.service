@@ -1,0 +1,17 @@
+[Service]
+WorkingDirectory=/var/atlassian/application-data/bamboo/
+ExecStart=/bin/su - $USER -c "export BAMBOO_HOME=${BAMBOO_HOME}; $BASE/bin/startup.sh &> /dev/null"
+ExecStop=/bin/su - $USER -c "$BASE/bin/shutdown.sh &> /dev/null"
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=bamboo
+User=bamboo
+Group=bamboo
+Environment='APP=bamboo'
+Environment='USER=bamboo'
+Environment='BASE=/opt/atlassian/bamboo/atlassian-bamboo-{{ bamboo_version }}'
+Environment='BAMBOO_HOME={{ bamboo_home_dir }}'
+
+[Install]
+WantedBy=multi-user.target

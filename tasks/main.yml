@@ -113,30 +113,6 @@
   tags:
     - bamboo
 
-- name: Set Bamboo environment settings
-  become: yes
-  template:
-    src: setenv.sh.j2
-    dest: "{{ bamboo_install_dir }}/atlassian-bamboo-{{ bamboo_version }}/bin/setenv.sh"
-    owner: bamboo
-    group: bamboo
-    mode: 0755
-  notify:
-    - restart bamboo
-  tags:
-    - bamboo
-
-- name: Create Bamboo init script
-  become: yes
-  template:
-    src: bamboo.j2
-    dest: /etc/init.d/bamboo
-    owner: root
-    group: root
-    mode: 0755
-  tags:
-    - bamboo
-
 - name: Ensure Bamboo service is started and enabled on boot
   become: yes
   service:
@@ -146,3 +122,10 @@
     enabled: yes
   tags:
     - bamboo
+
+- name: Add systemd conf
+  template:
+    src: bamboo.service
+    dest: /etc/systemd/system/bamboo.service
+  notify:
+      - enable bamboo service
