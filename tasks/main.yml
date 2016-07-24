@@ -69,6 +69,17 @@
   tags:
     - bamboo
 
+- name: Create Bamboo work directory
+  become: yes
+  file:
+    path: "{{ bamboo_install_dir }}/atlassian-bamboo-{{ bamboo_version }}/atlassian-bamboo/WEB-INF/classes"
+    owner: bamboo
+    group: bamboo
+    mode: 0755
+    state: directory
+  tags:
+    - bamboo
+
 - name: Download Bamboo
   become: yes
   get_url:
@@ -110,16 +121,6 @@
     mode: 0644
   notify:
     - restart bamboo
-  tags:
-    - bamboo
-
-- name: Ensure Bamboo service is started and enabled on boot
-  become: yes
-  service:
-    name: bamboo
-    state: started
-    pattern: '/usr/bin/java -Djava.util.logging.config.file=/opt/atlassian/bamboo/atlassian-bamboo-{{ bamboo_version }}/conf/logging.properties'
-    enabled: yes
   tags:
     - bamboo
 
