@@ -69,17 +69,6 @@
   tags:
     - bamboo
 
-- name: Create Bamboo work directory
-  become: yes
-  file:
-    path: "{{ bamboo_install_dir }}/atlassian-bamboo-{{ bamboo_version }}/atlassian-bamboo/WEB-INF/classes"
-    owner: bamboo
-    group: bamboo
-    mode: 0755
-    state: directory
-  tags:
-    - bamboo
-
 - name: Download Bamboo
   become: yes
   get_url:
@@ -90,15 +79,16 @@
     - bamboo
 
 - name: Extract Bamboo to install directory
-  become: yes
   unarchive:
     src: "{{ bamboo_work_dir }}/{{ bamboo_archive }}"
     dest: "{{ bamboo_install_dir }}"
-    owner: bamboo
-    group: bamboo
-    mode: 0755
     copy: no
     creates: "{{ bamboo_install_dir }}/atlassian-bamboo-{{ bamboo_version }}"
+  tags:
+    - bamboo
+
+- name: Change owner of bamboo install directory to bamboo
+  shell: chown -R bamboo:bamboo {{ bamboo_install_dir }}
   tags:
     - bamboo
 
@@ -119,8 +109,6 @@
     owner: bamboo
     group: bamboo
     mode: 0644
-  notify:
-    - restart bamboo
   tags:
     - bamboo
 
@@ -129,4 +117,4 @@
     src: bamboo.service
     dest: /etc/systemd/system/bamboo.service
   notify:
-      - enable bamboo service
+      - enable and start bamboo

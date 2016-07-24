@@ -1,15 +1,11 @@
 ---
 # handlers file for bamboo
 
-- name: restart bamboo
+- name: enable and start bamboo
   become: yes
   service:
     name: bamboo
-    state: restarted
-    pattern: bamboo
+    enabled: yes
+    state: started
   tags:
     - bamboo
-
-- name: enable bamboo service
-  become: yes
-  shell: systemctl enable bamboo
